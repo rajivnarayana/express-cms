@@ -12,5 +12,8 @@
     "node": "registry:dt/node#4.0.0+20160412142033",
     "serve-favicon": "registry:dt/serve-favicon#2.2.0+20150909053605",
     "serve-static": "registry:dt/serve-static#1.7.1+20160104095738"
+  },
+  "dependencies": {
+    "request": "registry:npm/request#2.69.0+20160428223725"
   }
 }
