@@ -6,6 +6,7 @@ import * as jade from "jade";
 import {adminRouter as cmsAdminRouter, router as cmsRouter} from "cms";
 
 import * as mongoose from "mongoose";
+mongoose.Promise = global.Promise;
 
 mongoose.connect(process.env.MONGOURL || 'mongodb://localhost/cms-test');
 
@@ -21,7 +22,7 @@ app.use('/admin/cms', cmsAdminRouter);
 
 app.use((req, res, next) => {
     if (res.html) {
-        res.render('layout', {html : {content : res.html, title : 'CMS'}});
+        res.render('layout', {html : res.html, title : 'CMS'});
         delete res.html;
     } else {
         next();

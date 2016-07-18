@@ -11,7 +11,7 @@ router.get('/:slug', async (req, res, next) => {
             if (err) {
                 return next(err);
             }
-            res.html = content;
+            res.html = {content : content};
             next();
         })
     } else {

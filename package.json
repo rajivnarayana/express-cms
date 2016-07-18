@@ -1,5 +1,5 @@
 {
-  "name": "cms",
+  "name": "express-cms",
   "version": "1.0.0",
   "description": "CMS module for express",
   "main": "index.js",
@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "body-parser": "~1.13.2",
-    "cms-forms": "file:///Users/rajiv/Development/cms-forms",
-    "cms-grids": "file:///Users/rajiv/Development/cms-grids",
+    "cms-forms": "https://github.com/rajivnarayana/cms-forms.git",
+    "cms-grids": "https://github.com/rajivnarayana/cms-grids.git",
     "express": "^4.14.0",
     "http-status-codes": "^1.0.6",
     "jade": "^1.11.0",
