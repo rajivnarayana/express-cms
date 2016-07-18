@@ -1,28 +1,24 @@
 {
-  "name": "authentication",
+  "name": "cms",
   "version": "1.0.0",
-  "description": "Reusable authentication plugin",
+  "description": "CMS module for express",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
-    "cookie-parser": "~1.3.5",
-    "express": "^4.13.4",
-    "express-jwt": "^3.3.0",
+    "cms-forms": "file:///Users/rajiv/Development/cms-forms",
+    "cms-grids": "file:///Users/rajiv/Development/cms-grids",
+    "express": "^4.14.0",
     "http-status-codes": "^1.0.6",
-    "jasmine": "^2.4.1",
-    "jsonwebtoken": "^5.5.4",
-    "morgan": "~1.6.1",
-    "request": "^2.72.0",
-    "serve-favicon": "~2.3.0"
+    "jade": "^1.11.0",
+    "marked": "^0.3.5",
+    "mongoose": "^4.5.3"
   },
   "keywords": [
-    "jwt",
-    "auth",
-    "login",
-    "acl"
+    "cms",
+    "static pages"
   ],
   "author": "Rajiv Narayana Singaseni",
   "license": "ISC",
