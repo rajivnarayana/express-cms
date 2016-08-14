@@ -18,7 +18,7 @@ router.get('/:slug', (req, res, next) => __awaiter(this, void 0, void 0, functio
             if (err) {
                 return next(err);
             }
-            res.html = { content: content };
+            res.html = { content: content, title: page.title };
             next();
         });
     }

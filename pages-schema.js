@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 let Schema = new mongoose.Schema({
     url: {
-        type: String, required: [true, 'URL required to create page'],
+        type: String, unique: true, required: [true, 'URL required to create page'],
     },
     title: {
         type: String

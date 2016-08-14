@@ -3,7 +3,7 @@ import { OK, INTERNAL_SERVER_ERROR } from "http-status-codes";
 const app : express.Application = express();
 import * as path from 'path';
 import * as jade from "jade";
-import {adminRouter as cmsAdminRouter, router as cmsRouter} from "cms";
+import {adminRouter as cmsAdminRouter, router as cmsRouter} from "express-cms";
 
 import * as mongoose from "mongoose";
 mongoose.Promise = global.Promise;

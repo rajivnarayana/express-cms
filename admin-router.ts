@@ -1,34 +1,42 @@
 import * as express from "express";
-import { Form, Field } from "cms-forms";
+import { Form, Field, WidgetTypes } from "cms-forms";
 import { Grid, Row } from "cms-grids";
 import * as marked from 'marked';
-
+import {Types} from "mongoose";
 import * as bodyParser from "body-parser";
 import { read, create, update, list } from './odm';
 
-const fields: [Field] = [{
-    label : 'Title',
-    type : 'TextField',
-    name : 'title',
-    placeholder : 'Page title',
-}, {
-    label : 'Content',
-    type : 'MDE',
-    name : 'content',
-    placeholder : 'Your content',
-}, {
-    label : 'Page',
-    type : 'TextField',
+const fields: [Field] = [  {
+    class : ['col-sm-7'],
+    labelClass : ['col-sm-2','col-sm-offset-1'],
+    label : 'URL',
+    type : WidgetTypes.TextField,
     name : 'url',
     placeholder : 'relative url'
 }, {
+    class : ['col-sm-7'],
+    labelClass : ['col-sm-2','col-sm-offset-1'],
+    label : 'Title',
+    type : WidgetTypes.TextField,
+    name : 'title',
+    placeholder : 'Page title',
+}, {
+    class : ['col-sm-7'],
+    labelClass : ['col-sm-2','col-sm-offset-1'],
+    label : 'Content',
+    type : WidgetTypes.MarkDownEditor || 'MDE',
+    name : 'content',
+    placeholder : 'Your content',
+},{
     label : 'Published',
-    type : 'CheckBox',
+    class : ['col-sm-7', 'col-sm-offset-3'],
+    type : WidgetTypes.CheckBox,
     value : false,
     name : 'published'
 }, {
+    class : ['col-sm-4', 'col-sm-offset-3'],
     label : 'Submit',
-    type : 'Submit',
+    type : WidgetTypes.Submit,
     value : "Submit",
     name : 'draft'
 }];
@@ -48,6 +56,9 @@ router.use((req, res, next) => {
 })
 
 router.param('id', async (req, res, next, id) => {
+    if (!Types.ObjectId.isValid(id)) {
+        return next();
+    }
     try {
         req.object = await read(id);
         next();
@@ -80,7 +91,7 @@ router.get('/pages', async (req, res, next) => {
         }]
         return row;
     })
-    grid.footer = "Add new page";
+    grid.footer = `<a href="${relativeURL('/pages/new')}">New page</a>`;
     res.grid = grid;
     next();
 })
@@ -128,6 +139,9 @@ router.route('/pages/:id/edit').get(async (req, res, next) => {
 });
 
 router.get('/pages/:id', async(req, res, next) => {
+    if (!req.object) {
+        return next(); //404
+    }
     let page = req.object;
     marked(page.content, (err, content) => {
         if (err) {

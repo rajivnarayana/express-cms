@@ -11,31 +11,40 @@ const express = require("express");
 const cms_forms_1 = require("cms-forms");
 const cms_grids_1 = require("cms-grids");
 const marked = require('marked');
+const mongoose_1 = require("mongoose");
 const bodyParser = require("body-parser");
 const odm_1 = require('./odm');
 const fields = [{
-        label: 'Title',
-        type: 'TextField',
-        name: 'title',
-        placeholder: 'Page title',
-    }, {
-        label: 'Content',
-        type: 'MDE',
-        name: 'content',
-        placeholder: 'Your content',
-    }, {
-        label: 'Page',
-        type: 'TextField',
+        class: ['col-sm-7'],
+        labelClass: ['col-sm-2', 'col-sm-offset-1'],
+        label: 'URL',
+        type: cms_forms_1.WidgetTypes.TextField,
         name: 'url',
         placeholder: 'relative url'
     }, {
+        class: ['col-sm-7'],
+        labelClass: ['col-sm-2', 'col-sm-offset-1'],
+        label: 'Title',
+        type: cms_forms_1.WidgetTypes.TextField,
+        name: 'title',
+        placeholder: 'Page title',
+    }, {
+        class: ['col-sm-7'],
+        labelClass: ['col-sm-2', 'col-sm-offset-1'],
+        label: 'Content',
+        type: cms_forms_1.WidgetTypes.MarkDownEditor || 'MDE',
+        name: 'content',
+        placeholder: 'Your content',
+    }, {
         label: 'Published',
-        type: 'CheckBox',
+        class: ['col-sm-7', 'col-sm-offset-3'],
+        type: cms_forms_1.WidgetTypes.CheckBox,
         value: false,
         name: 'published'
     }, {
+        class: ['col-sm-4', 'col-sm-offset-3'],
         label: 'Submit',
-        type: 'Submit',
+        type: cms_forms_1.WidgetTypes.Submit,
         value: "Submit",
         name: 'draft'
     }];
@@ -51,6 +60,9 @@ router.use((req, res, next) => {
     next();
 });
 router.param('id', (req, res, next, id) => __awaiter(this, void 0, void 0, function* () {
+    if (!mongoose_1.Types.ObjectId.isValid(id)) {
+        return next();
+    }
     try {
         req.object = yield odm_1.read(id);
         next();
@@ -83,7 +95,7 @@ router.get('/pages', (req, res, next) => __awaiter(this, void 0, void 0, functio
             }];
         return row;
     });
-    grid.footer = "Add new page";
+    grid.footer = `<a href="${relativeURL('/pages/new')}">New page</a>`;
     res.grid = grid;
     next();
 }));
@@ -131,6 +143,9 @@ router.route('/pages/:id/edit').get((req, res, next) => __awaiter(this, void 0, 
     }
 }));
 router.get('/pages/:id', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    if (!req.object) {
+        return next(); //404
+    }
     let page = req.object;
     marked(page.content, (err, content) => {
         if (err) {
