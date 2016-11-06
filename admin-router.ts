@@ -4,7 +4,7 @@ import { Grid, Row } from "cms-grids";
 import * as marked from 'marked';
 import {Types} from "mongoose";
 import * as bodyParser from "body-parser";
-import { read, create, update, list } from './odm';
+import { read, create, update, list, publish, unpublish } from './odm';
 
 const fields: [Field] = [  {
     class : ['col-sm-7'],
@@ -91,7 +91,7 @@ router.get('/pages', async (req, res, next) => {
         }]
         return row;
     })
-    grid.footer = `<a href="${relativeURL('/pages/new')}">New page</a>`;
+    grid.footer = `<a href="${relativeURL('/pages/new')}" class="btn btn-primary">New page</a>`;
     res.grid = grid;
     next();
 })
@@ -122,7 +122,7 @@ router.route('/pages/:id/edit').get(async (req, res, next) => {
     form.method = 'POST';
     form.action = relativeURL(`/pages/${req.params.id}/edit`);
     form.fields = fields;
-    form.setValues(req.object.toObject()); 
+    form.setValues(Object.assign(req.object.toObject(), {published : req.object.published ? "on" : ""})); 
     res.form = form;
     next();
 }).post(async (req, res, next) => {
@@ -151,5 +151,23 @@ router.get('/pages/:id', async(req, res, next) => {
         next();
     })
 });
+
+router.get('/pages/:id/publish', async (req, res, next) => {
+    if (!req.object) {
+        return next();
+    }
+    let page = req.object;
+    await publish(page.id);
+    res.redirect(relativeURL("/pages"));
+})
+
+router.get('/pages/:id/unpublish', async (req, res, next) => {
+    if (!req.object) {
+        return next();
+    }
+    let page = req.object;
+    await unpublish(page.id);
+    res.redirect(relativeURL("/pages"));
+})
 
 export = router;

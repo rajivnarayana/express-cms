@@ -126,7 +126,7 @@ router.route('/pages/:id/edit').get((req, res, next) => __awaiter(this, void 0, 
     form.method = 'POST';
     form.action = relativeURL(`/pages/${req.params.id}/edit`);
     form.fields = fields;
-    form.setValues(req.object.toObject());
+    form.setValues(Object.assign(req.object.toObject(), { published: req.object.published ? "on" : "" }));
     res.form = form;
     next();
 })).post((req, res, next) => __awaiter(this, void 0, void 0, function* () {
@@ -154,6 +154,22 @@ router.get('/pages/:id', (req, res, next) => __awaiter(this, void 0, void 0, fun
         res.html = content;
         next();
     });
+}));
+router.get('/pages/:id/publish', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    if (!req.object) {
+        return next();
+    }
+    let page = req.object;
+    yield odm_1.publish(page.id);
+    res.redirect(relativeURL("/pages"));
+}));
+router.get('/pages/:id/unpublish', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    if (!req.object) {
+        return next();
+    }
+    let page = req.object;
+    yield odm_1.unpublish(page.id);
+    res.redirect(relativeURL("/pages"));
 }));
 module.exports = router;
 //# sourceMappingURL=admin-router.js.map

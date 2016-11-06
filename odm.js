@@ -22,12 +22,18 @@ function create(values) {
 exports.create = create;
 function update(id, values) {
     return __awaiter(this, void 0, void 0, function* () {
+        if (!values.published) {
+            values.published = false;
+        }
+        else {
+            values.published = values.published == "on";
+        }
         return yield pages_schema_1.PageSchema.findByIdAndUpdate(id, { $set: values }, { $new: true });
     });
 }
 exports.update = update;
 function list() {
-    return __awaiter(this, void 0, Promise, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         return yield pages_schema_1.PageSchema.find();
     });
 }
@@ -44,4 +50,16 @@ function findBySlug(slug) {
     });
 }
 exports.findBySlug = findBySlug;
+function publish(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield pages_schema_1.PageSchema.findByIdAndUpdate(id, { $set: { published: true } }, { $new: true });
+    });
+}
+exports.publish = publish;
+function unpublish(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield pages_schema_1.PageSchema.findByIdAndUpdate(id, { $set: { published: false } }, { $new: true });
+    });
+}
+exports.unpublish = unpublish;
 //# sourceMappingURL=odm.js.map

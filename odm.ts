@@ -10,6 +10,12 @@ export async function create(values) {
 }
 
 export async function update(id, values) {
+    if (!values.published) {
+        values.published = false;
+    } else {
+        values.published = values.published == "on";
+    }
+    
     return await PageSchema.findByIdAndUpdate(id, {$set : values}, {$new : true});
 }
 
@@ -24,4 +30,12 @@ export async function findBySlug(slug) {
     } else {
         return pages[0];
     }
+}
+
+export async function publish(id) {
+    return await PageSchema.findByIdAndUpdate(id, {$set : { published : true }}, { $new : true });
+}
+
+export async function unpublish(id) {
+    return await PageSchema.findByIdAndUpdate(id, {$set : { published : false }}, { $new : true });
 }
