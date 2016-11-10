@@ -8,7 +8,7 @@ let Schema = new mongoose.Schema({
         type: String
     },
     content: {
-        type: String
+        type: String, required: [true, 'Content required to create a page']
     },
     published: {
         type: Boolean,

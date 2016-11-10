@@ -16,7 +16,7 @@ export async function update(id, values) {
         values.published = values.published == "on";
     }
     
-    return await PageSchema.findByIdAndUpdate(id, {$set : values}, {$new : true});
+    return await PageSchema.findByIdAndUpdate(id, {$set : values}, {$new : true, runValidators: true});
 }
 
 export async function list() : Promise<Document> {

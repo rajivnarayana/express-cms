@@ -14,6 +14,7 @@ const marked = require('marked');
 const mongoose_1 = require("mongoose");
 const bodyParser = require("body-parser");
 const odm_1 = require('./odm');
+const error_utils_1 = require("./error-utils");
 const fields = [{
         class: ['col-sm-7'],
         labelClass: ['col-sm-2', 'col-sm-offset-1'],
@@ -95,7 +96,7 @@ router.get('/pages', (req, res, next) => __awaiter(this, void 0, void 0, functio
             }];
         return row;
     });
-    grid.footer = `<a href="${relativeURL('/pages/new')}">New page</a>`;
+    grid.footer = `<a href="${relativeURL('/pages/new')}" class="btn btn-primary">New page</a>`;
     res.grid = grid;
     next();
 }));
@@ -114,11 +115,12 @@ router.route('/pages/new').all((req, res, next) => {
         res.redirect(relativeURL('/pages'));
     }
     catch (error) {
+        res.html.errors = error_utils_1.processMongooseErrors(error);
         res.form.setValues(req.body);
         next();
     }
 }));
-router.route('/pages/:id/edit').get((req, res, next) => __awaiter(this, void 0, void 0, function* () {
+router.route('/pages/:id/edit').all((req, res, next) => __awaiter(this, void 0, void 0, function* () {
     if (!req.object) {
         return next(); //404
     }
@@ -138,6 +140,7 @@ router.route('/pages/:id/edit').get((req, res, next) => __awaiter(this, void 0, 
         res.redirect(relativeURL('/pages'));
     }
     catch (error) {
+        res.html.errors = error_utils_1.processMongooseErrors(error);
         res.form.setValues(req.body);
         next();
     }

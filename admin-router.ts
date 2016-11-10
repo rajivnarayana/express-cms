@@ -5,6 +5,7 @@ import * as marked from 'marked';
 import {Types} from "mongoose";
 import * as bodyParser from "body-parser";
 import { read, create, update, list, publish, unpublish } from './odm';
+import { processMongooseErrors } from "./error-utils";
 
 const fields: [Field] = [  {
     class : ['col-sm-7'],
@@ -109,12 +110,13 @@ router.route('/pages/new').all((req, res, next) => {
         await create(req.body);
         res.redirect(relativeURL('/pages'));
     } catch(error) {
+        res.html.errors = processMongooseErrors(error); 
         res.form.setValues(req.body);
         next();
     }
 });
 
-router.route('/pages/:id/edit').get(async (req, res, next) => {
+router.route('/pages/:id/edit').all(async (req, res, next) => {
     if (!req.object) {
         return next(); //404
     }
@@ -133,6 +135,7 @@ router.route('/pages/:id/edit').get(async (req, res, next) => {
         await update(req.params.id, req.body);
         res.redirect(relativeURL('/pages'));
     } catch(error) {
+        res.html.errors = processMongooseErrors(error);
         res.form.setValues(req.body);
         next();
     }

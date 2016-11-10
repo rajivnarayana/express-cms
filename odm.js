@@ -28,7 +28,7 @@ function update(id, values) {
         else {
             values.published = values.published == "on";
         }
-        return yield pages_schema_1.PageSchema.findByIdAndUpdate(id, { $set: values }, { $new: true });
+        return yield pages_schema_1.PageSchema.findByIdAndUpdate(id, { $set: values }, { $new: true, runValidators: true });
     });
 }
 exports.update = update;
