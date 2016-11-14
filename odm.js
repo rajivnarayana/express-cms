@@ -33,7 +33,7 @@ function update(id, values) {
 }
 exports.update = update;
 function list() {
-    return __awaiter(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, Promise, function* () {
         return yield pages_schema_1.PageSchema.find();
     });
 }
