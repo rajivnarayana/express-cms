@@ -35,10 +35,11 @@ const fields: [Field] = [  {
     value : false,
     name : 'published'
 }, {
-    class : ['col-sm-4', 'col-sm-offset-3'],
-    label : 'Submit',
+    labelClass: ['col-sm-offset-4', 'col-sm-4'],
+    class: ["btn-primary", "btn", "col-xs-12"],
+    label : 'Submit 2',
     type : WidgetTypes.Submit,
-    value : "Submit",
+    value : "Submit 1",
     name : 'draft'
 }];
 

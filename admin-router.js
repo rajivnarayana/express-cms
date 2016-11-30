@@ -43,7 +43,8 @@ const fields = [{
         value: false,
         name: 'published'
     }, {
-        class: ['col-sm-4', 'col-sm-offset-3'],
+        labelClass: ['col-sm-offset-4', 'col-sm-4'],
+        class: ["btn-primary", "btn", "col-xs-12"],
         label: 'Submit',
         type: cms_forms_1.WidgetTypes.Submit,
         value: "Submit",
