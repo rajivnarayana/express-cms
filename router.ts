@@ -7,13 +7,18 @@ let router = express.Router();
 router.get('/:slug', async (req, res, next) => {
     let page = await findBySlug(req.params.slug);
     if (page) {
-        marked(page.content, (err, content) => {
-            if (err) {
-                return next(err);
-            }
-            res.html = {content : content, title : page.title, slug : req.params.slug};
+        if (page.format == 'markdown') {
+            marked(page.content, (err, content) => {
+                if (err) {
+                    return next(err);
+                }
+                res.html = {content : content, title : page.title, slug : req.params.slug};
+                next();
+            })
+        } else {
+            res.html = {content : page.content, title : page.title, slug : req.params.slug};
             next();
-        })
+        }
     } else {
         next();
     }

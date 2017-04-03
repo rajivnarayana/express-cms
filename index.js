@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const adminRouter_ = require("./admin-router");
 const router_ = require("./router");
 const cms_forms_1 = require("cms-forms");

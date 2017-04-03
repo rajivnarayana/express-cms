@@ -24,6 +24,13 @@ const fields: [Field] = [  {
 }, {
     class : ['col-sm-7'],
     labelClass : ['col-sm-2','col-sm-offset-1'],
+    label : 'Type',
+    type : WidgetTypes.Select,
+    options : {'markdown' : 'Mark Down', 'html' : "HTML"},
+    name : 'format',
+}, {
+    class : ['col-sm-7'],
+    labelClass : ['col-sm-2','col-sm-offset-1'],
     label : 'Content',
     type : WidgetTypes.MarkDownEditor || 'MDE',
     name : 'content',
@@ -35,11 +42,11 @@ const fields: [Field] = [  {
     value : false,
     name : 'published'
 }, {
-    labelClass: ['col-sm-offset-4', 'col-sm-4'],
+    labelClass: ['col-sm-offset-3', 'col-sm-4'],
     class: ["btn-primary", "btn", "col-xs-12"],
     label : 'Submit 2',
     type : WidgetTypes.Submit,
-    value : "Submit 1",
+    value : "Submit",
     name : 'draft'
 }];
 
@@ -101,6 +108,7 @@ router.route('/pages/new').all((req, res, next) => {
     let form = new Form();
     form.method = 'POST';
     form.action = relativeURL('/pages/new');
+    fields[3].type = req.params.format == 'HTML' ? WidgetTypes.HTML : WidgetTypes.MarkDownEditor;
     form.fields = fields;
     res.form = form;
     next();
@@ -125,6 +133,7 @@ router.route('/pages/:id/edit').all(async (req, res, next) => {
     form.method = 'POST';
     form.action = relativeURL(`/pages/${req.params.id}/edit`);
     form.fields = fields;
+    form.fields[3].type = req.object.format == 'html' ? WidgetTypes.HTMLEditor : WidgetTypes.MarkDownEditor;
     form.setValues(Object.assign(req.object.toObject(), {published : req.object.published ? "on" : ""})); 
     res.form = form;
     next();

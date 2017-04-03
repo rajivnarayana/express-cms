@@ -2,18 +2,18 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments)).next());
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 const express = require("express");
 const cms_forms_1 = require("cms-forms");
 const cms_grids_1 = require("cms-grids");
-const marked = require('marked');
+const marked = require("marked");
 const mongoose_1 = require("mongoose");
 const bodyParser = require("body-parser");
-const odm_1 = require('./odm');
+const odm_1 = require("./odm");
 const error_utils_1 = require("./error-utils");
 const fields = [{
         class: ['col-sm-7'],
@@ -32,6 +32,13 @@ const fields = [{
     }, {
         class: ['col-sm-7'],
         labelClass: ['col-sm-2', 'col-sm-offset-1'],
+        label: 'Type',
+        type: cms_forms_1.WidgetTypes.Select,
+        options: { 'markdown': 'Mark Down', 'html': "HTML" },
+        name: 'format',
+    }, {
+        class: ['col-sm-7'],
+        labelClass: ['col-sm-2', 'col-sm-offset-1'],
         label: 'Content',
         type: cms_forms_1.WidgetTypes.MarkDownEditor || 'MDE',
         name: 'content',
@@ -43,9 +50,9 @@ const fields = [{
         value: false,
         name: 'published'
     }, {
-        labelClass: ['col-sm-offset-4', 'col-sm-4'],
+        labelClass: ['col-sm-offset-3', 'col-sm-4'],
         class: ["btn-primary", "btn", "col-xs-12"],
-        label: 'Submit',
+        label: 'Submit 2',
         type: cms_forms_1.WidgetTypes.Submit,
         value: "Submit",
         name: 'draft'
@@ -105,6 +112,7 @@ router.route('/pages/new').all((req, res, next) => {
     let form = new cms_forms_1.Form();
     form.method = 'POST';
     form.action = relativeURL('/pages/new');
+    fields[3].type = req.params.format == 'HTML' ? cms_forms_1.WidgetTypes.HTML : cms_forms_1.WidgetTypes.MarkDownEditor;
     form.fields = fields;
     res.form = form;
     next();
@@ -129,6 +137,7 @@ router.route('/pages/:id/edit').all((req, res, next) => __awaiter(this, void 0, 
     form.method = 'POST';
     form.action = relativeURL(`/pages/${req.params.id}/edit`);
     form.fields = fields;
+    form.fields[3].type = req.object.format == 'html' ? cms_forms_1.WidgetTypes.HTMLEditor : cms_forms_1.WidgetTypes.MarkDownEditor;
     form.setValues(Object.assign(req.object.toObject(), { published: req.object.published ? "on" : "" }));
     res.form = form;
     next();

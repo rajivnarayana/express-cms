@@ -25,34 +25,11 @@ html
                         span.icon-bar
                         span.icon-bar
                         span.icon-bar
-                    a.navbar-brand(href='/') Driverzz Admin
+                    a.navbar-brand(href='/') CMS
                 #navbar.navbar-collapse.collapse
                     ul.nav.navbar-nav.navbar-right
                         li
-                            a(href="/admin/requests") Home
-                        li
-                            a(href="/admin/requests/history") Requests History
-                        li
-                            a(href="/drivers") Drivers
-                        if(user && user.issuperadmin)
-                            li
-                                a(href="/admin/subadmin") Operators
-                            li
-                                a(href="/admin/siteconstants") Constants
-                            li
-                                a(href="/admin/offers") Offers
-                            li
-                                a(href="/admin/rate_card") Rate Card
-                            li
-                                a(href="/admin/payments") Payments                                
-                            li
-                                a(href="/admin/subadmin/#{user._id}/update") Profile                                
-                        if(user && user.isadmin)                        
-                            li
-                                a(href="/admin/#{user._id}/edit") Profile
-                        li
-                            a(href="/logout") Logout
-    
+                            a(href="/admin/cms/pages") List Pages
     div.container-fluid.main-container
         block content 
             != html.content

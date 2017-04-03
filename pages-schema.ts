@@ -1,8 +1,13 @@
 import * as mongoose from 'mongoose';
 
+export const FORMATS = ['markdown', 'html'];
+
 let Schema = new mongoose.Schema({
   url: {
     type: String, unique : true, required: [true, 'URL required to create page'],
+  },
+  format : {
+    type: String, enum : FORMATS, default : FORMATS[0]
   },
   title: {
     type: String
