@@ -1,16 +1,17 @@
-import * as express from "express";
-import { OK, INTERNAL_SERVER_ERROR } from "http-status-codes";
-const app : express.Application = express();
-import * as path from 'path';
-import * as jade from "jade";
-import {adminRouter as cmsAdminRouter, router as cmsRouter} from "express-cms";
+const express = require("express");
+const { OK, INTERNAL_SERVER_ERROR } = require("http-status-codes");
+const app = express();
+const path  = require('path');
+const jade = require("jade");
 
-import * as mongoose from "mongoose";
+const {adminRouter : cmsAdminRouter, router : cmsRouter} = require("express-cms");
+
+const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
 mongoose.connect(process.env.MONGOURL || 'mongodb://localhost/cms-test');
 
-app.get('/', (request : express.Request, response : express.Response) => {
+app.get('/', (request, response) => {
     response.status(OK).send("Hello World");
 });
 
@@ -28,8 +29,8 @@ app.use((req, res, next) => {
         next();
     }
 })
-app.use((error: Error , req, res, next) => {
+app.use((error , req, res, next) => {
    res.status(error.code < 600 ? error.code : INTERNAL_SERVER_ERROR || INTERNAL_SERVER_ERROR).send({errors: [{error: error.message || error.error}]}) 
 });
 
-export = app;
+module.exports = app;

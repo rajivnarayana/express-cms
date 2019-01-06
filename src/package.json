@@ -1,20 +1,26 @@
 {
   "name": "express-cms",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "CMS module for express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsc": "tsc",
+    "plugin.tscwatch": "npm run tsc -- -w",
+    "plugin.prepare": "npm run tsc && cd ../express-sample && tns plugin remove express-cms && npm i ../src"
   },
   "dependencies": {
+    "@types/express": "^4.16.0",
+    "@types/mongoose": "^5.3.7",
     "body-parser": "~1.13.2",
     "cms-forms": "https://github.com/rajivnarayana/cms-forms.git",
     "cms-grids": "https://github.com/rajivnarayana/cms-grids.git",
-    "express": "^4.14.0",
     "http-status-codes": "^1.0.6",
     "jade": "^1.11.0",
-    "marked": "^0.3.5",
-    "mongoose": "^4.5.3"
+    "marked": "^0.3.5"
+  },
+  "peerDependencies": {
+    "express": "*",
+    "mongoose": "*"
   },
   "keywords": [
     "cms",
@@ -23,6 +29,6 @@
   "author": "Rajiv Narayana Singaseni",
   "license": "ISC",
   "devDependencies": {
-    "typescript": ">=2.2.2"
+    "typescript": "^3.2.2"
   }
 }

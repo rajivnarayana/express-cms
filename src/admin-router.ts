@@ -119,6 +119,7 @@ router.route('/pages/new').all((req, res, next) => {
         await create(req.body);
         res.redirect(relativeURL('/pages'));
     } catch(error) {
+        console.error(error);
         (res as any).html.errors = processMongooseErrors(error); 
         (res as any).form.setValues(req.body);
         next();
@@ -145,6 +146,7 @@ router.route('/pages/:id/edit').all(async (req, res, next) => {
         await update(req.params.id, req.body);
         res.redirect(relativeURL('/pages'));
     } catch(error) {
+        console.error(error);
         (res as any).html.errors = processMongooseErrors(error);
         (res as any).form.setValues(req.body);
         next();

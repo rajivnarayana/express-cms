@@ -1,5 +1,6 @@
 node_modules
 express-sample/**/*.js
+*.js
 *.js.map
 typings
 .vscode

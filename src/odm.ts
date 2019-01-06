@@ -4,8 +4,8 @@ export async function read(id) {
     return await PageSchema.findById(id).exec();
 }
 
-export async function create(values) {
-    return await PageSchema.create(values);
+export async function create({published, ...rest}) {
+    return await PageSchema.create({...rest, published : published == "on"});
 }
 
 export async function update(id, values) {
